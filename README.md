@@ -41,10 +41,7 @@ This project analyzes land cover change in Lekki, Lagos State, Nigeria, over a 3
 
 ## 📊 Outputs
 
-- ✅ **Land cover maps** for 1990–2025
-- 📈 **Bar charts** showing class distribution per year
-- 🔁 **Gain/Loss maps** showing land cover transitions
-- 🗂️ **Exports** of NDVI, NDVI-threshold, and green space stats to Drive
+- ✅ **Land cover maps** for 2000–2025
 
 ## 📍 Study Area
 
@@ -61,20 +58,16 @@ This project analyzes land cover change in Lekki, Lagos State, Nigeria, over a 3
 
 1. Open the GEE JavaScript Code Editor: [https://code.earthengine.google.com/](https://code.earthengine.google.com/)
 2. Paste the full code from `LULC_GEE_Code.js`
-3. Set your region of interest (ROI) to Lekki or desired AOI
+3. Set your region of interest (ROI) to Lekki or the desired AOI
 4. Run the script
 5. View and export results (maps, charts, confusion matrices)
 
 ## 📌 Credits
 
 - Satellite data: USGS Landsat Collection
-- Developed by: **OPE Akintola**
+- Developed by: **Mercy Akintola**
 - Affiliation: Remote Sensing & GIS, Nigeria
 
 ## 📄 License
 
 This project is open-source and available under the **MIT License**.
-
-
-readme_path.name
-
