@@ -1,6 +1,3 @@
-from pathlib import Path
-
-readme_text = """
 # 🌍 Land Cover Classification and Change Detection in Lekki, Lagos (1990–2025)
 
 This project analyzes land cover change in Lekki, Lagos State, Nigeria, over a 35-year period (1990–2025) at 7-year intervals using Landsat satellite imagery. It classifies land into four primary classes — **Water, Built-up, Vegetation, and Wetlands** — and performs change detection, accuracy assessment, and exports maps and statistics using the **Google Earth Engine (GEE)** platform.
@@ -77,10 +74,7 @@ This project analyzes land cover change in Lekki, Lagos State, Nigeria, over a 3
 ## 📄 License
 
 This project is open-source and available under the **MIT License**.
-"""
 
-readme_path = Path("/mnt/data/README.md")
-readme_path.write_text(readme_text.strip())
 
 readme_path.name
 
