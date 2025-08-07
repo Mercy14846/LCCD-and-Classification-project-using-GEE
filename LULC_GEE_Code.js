@@ -73,6 +73,7 @@ function loadImage(year, sensor) {
 
 // ========== Classification, NDVI, Export, Gain/Loss Detection ==========
 var classifiedList = [];
+var statisticsList = [];
 
 function classifyYear(year, sensor) {
   var image = loadImage(year, sensor);
@@ -113,6 +114,35 @@ function classifyYear(year, sensor) {
 
   Export.image.toDrive({ image: ndvi, description: 'NDVI_' + year, folder: 'LULC_LCC', fileNamePrefix: 'NDVI_' + year, region: AOI.geometry(), scale: 30, maxPixels: 1e13 });
   Export.image.toDrive({ image: ndviThreshold, description: 'NDVI_Threshold_' + year, folder: 'LULC_LCC', fileNamePrefix: 'NDVI_Threshold_' + year, region: AOI.geometry(), scale: 30, maxPixels: 1e13 });
+
+  // ========== Calculate Area and Percentage ==========
+  var areaImage = ee.Image.pixelArea().divide(1e6); // convert to km²
+
+  var stats = ee.List.sequence(0, 3).map(function(classValue) {
+    classValue = ee.Number(classValue);
+    var classMask = classified.eq(classValue);
+    var area = areaImage.updateMask(classMask).reduceRegion({
+      reducer: ee.Reducer.sum(),
+      geometry: AOI.geometry(),
+      scale: 30,
+      maxPixels: 1e13
+    }).get('area');
+
+    return ee.Feature(null, {
+      'Year': year,
+      'Class': classValue,
+      'Area_km2': area,
+      'Percent': ee.Number(area).divide(areaImage.reduceRegion({
+        reducer: ee.Reducer.sum(),
+        geometry: AOI.geometry(),
+        scale: 30,
+        maxPixels: 1e13
+      }).get('area')).multiply(100)
+    });
+  });
+
+  var statsFC = ee.FeatureCollection(stats);
+  statisticsList.push(statsFC);
 }
 
 // ========== Change Detection (Green Space Gain/Loss) ==========
@@ -171,6 +201,17 @@ yearsSensors.forEach(function(obj) {
 
 // ========== Compute Change Detection ==========
 computeGainLoss(classifiedList);
+
+// ========== Export Statistics CSV ==========
+var finalStats = ee.FeatureCollection(statisticsList).flatten();
+
+Export.table.toDrive({
+  collection: finalStats,
+  description: 'LULC_Area_Statistics',
+  folder: 'LULC_LCC',
+  fileNamePrefix: 'LULC_Area_Statistics',
+  fileFormat: 'CSV'
+});
 
 // ========== Center Map ==========
 Map.centerObject(AOI, 15);
