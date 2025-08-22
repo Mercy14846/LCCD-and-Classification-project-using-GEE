@@ -19,11 +19,12 @@ This project analyzes land cover change in Lekki, Lagos State, Nigeria, over 35 
 
 2. **Supervised Classification**
    - Four land cover classes:
-     - `0`: Water  
-     - `1`: Built-up  
-     - `2`: Vegetation  
-     - `3`: Wetland  
-   - Classification performed for 1990, 1997, 2004, 2011, 2018, and 2025
+     - `0`: Built-up  
+     - `1`: Bareland  
+     - `2`: Water 
+     - `3`: Vegetation
+     - `4`: Wetland  
+   - Classification performed for 2000, 2007, 2014, 2020 and 2025
 
 3. **Accuracy Assessment**
    - Confusion matrix and overall accuracy using test data
